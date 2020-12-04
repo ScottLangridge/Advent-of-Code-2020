@@ -1,10 +1,13 @@
 def main(raw_input):
-    # Parse input
+    input = [int(x) for x in raw_input.splitlines()]
 
-    # Solve problem
+    for i in input:
+        for j in input:
+            for k in input:
+                if i + j + k == 2020:
+                    return i * j * k
 
-    # Return solution
-    return None
+    return False
 
 
 def get_input(filename):
