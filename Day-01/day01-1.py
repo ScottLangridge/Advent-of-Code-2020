@@ -1,8 +1,8 @@
 def main(raw_input):
-    input = [int(x) for x in raw_input.splitlines()]
+    vals = [int(x) for x in raw_input.splitlines()]
 
-    for i in input:
-        for j in input:
+    for i in vals:
+        for j in vals:
             if i + j == 2020:
                 return i * j
 
@@ -12,10 +12,6 @@ def main(raw_input):
 def get_input(filename):
     with open(filename) as f:
         raw_input = f.read()
-    return raw_input
-
-
-def parse_input(raw_input):
     return raw_input
 
 
