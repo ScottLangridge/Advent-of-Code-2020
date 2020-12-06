@@ -1,10 +1,16 @@
 def main(raw_input):
-    # Parse input
+    group_responses = parse_input(raw_input)
+    alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
-    # Solve problem
+    total_yes_count = 0
+    for i in group_responses:
+        group_yes_count = 0
+        for char in alphabet:
+            if char in i:
+                group_yes_count += 1
+        total_yes_count += group_yes_count
 
-    # Return solution
-    return None
+    return total_yes_count
 
 
 def get_input(filename):
@@ -14,7 +20,8 @@ def get_input(filename):
 
 
 def parse_input(raw_input):
-    return raw_input
+    return raw_input.split('\n\n')
+
 
 
 if __name__ == '__main__':
