@@ -1,14 +1,7 @@
 def main(raw_input):
     group_responses = parse_input(raw_input)
-    alphabet = 'abcdefghijklmnopqrstuvwxyz'
-
-    total_yes_count = 0
-    for i in group_responses:
-        group_yes_count = 0
-        for char in alphabet:
-            if char in i:
-                group_yes_count += 1
-        total_yes_count += group_yes_count
+    group_yes_counts = [len(i) for i in group_responses]
+    total_yes_count = sum(group_yes_counts)
 
     return total_yes_count
 
@@ -20,8 +13,8 @@ def get_input(filename):
 
 
 def parse_input(raw_input):
-    return raw_input.split('\n\n')
-
+    groups = [i.replace('\n', '') for i in raw_input.split('\n\n')]
+    return ["".join(set(i)) for i in groups]
 
 
 if __name__ == '__main__':
