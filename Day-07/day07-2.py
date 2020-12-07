@@ -2,8 +2,8 @@ from collections import defaultdict
 
 
 def main(raw_input):
-    contained_by_bag = parse_rules(raw_input)
-    return count_children(contained_by_bag, 'shiny gold')
+    can_be_contained_by_colour = parse_rules(raw_input)
+    return count_children(can_be_contained_by_colour, 'shiny gold')
 
 
 def get_input(filename):
@@ -34,13 +34,13 @@ def parse_rules(raw_input):
     return rules_dict
 
 
-def count_children(contained_by_bag, colour):
+def count_children(can_be_contained_by_colour, colour):
     total_children = 0
-    for child in contained_by_bag[colour]:
+    for child in can_be_contained_by_colour[colour]:
         # Add the child bag
         total_children += child[1]
         # Add the children of the child bag
-        total_children += child[1] * count_children(contained_by_bag, child[0])
+        total_children += child[1] * count_children(can_be_contained_by_colour, child[0])
     return total_children
 
 
