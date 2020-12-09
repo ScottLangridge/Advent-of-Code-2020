@@ -32,8 +32,6 @@ def index_is_valid(xmas_data, index, window_size):
     return False
 
 
-
-
 if __name__ == '__main__':
     puzzle_input = get_input('input.txt')
     print(main(puzzle_input))
