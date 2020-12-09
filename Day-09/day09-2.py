@@ -1,10 +1,16 @@
 def main(raw_input):
-    # Parse input
+    xmas_data = parse_input(raw_input)
+    invalid_val = 105950735
 
-    # Solve problem
+    first = 0
+    last = 0
+    while sum(xmas_data[first:last]) != invalid_val:
+        if sum(xmas_data[first:last]) < invalid_val:
+            last += 1
+        else:
+            first += 1
 
-    # Return solution
-    return None
+    return min(xmas_data[first:last]) + max(xmas_data[first:last])
 
 
 def get_input(filename):
@@ -14,7 +20,7 @@ def get_input(filename):
 
 
 def parse_input(raw_input):
-    return raw_input
+    return [int(i) for i in raw_input.splitlines()]
 
 
 if __name__ == '__main__':
