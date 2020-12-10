@@ -1,10 +1,14 @@
 def main(raw_input):
-    # Parse input
+    adaptors = parse_input(raw_input)
 
-    # Solve problem
+    i = 1
+    differences = [adaptors[0]]
+    while i < len(adaptors):
+        differences.append(adaptors[i] - adaptors[i - 1])
+        i += 1
+    differences.append(3)
 
-    # Return solution
-    return None
+    return differences.count(1) * differences.count(3)
 
 
 def get_input(filename):
@@ -14,7 +18,7 @@ def get_input(filename):
 
 
 def parse_input(raw_input):
-    return raw_input
+    return sorted([int(i) for i in raw_input.splitlines()])
 
 
 if __name__ == '__main__':
