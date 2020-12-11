@@ -1,11 +1,10 @@
 def main(raw_input):
     seats = parse_input(raw_input)
-
-    new_seats = update_ferry(seats)
+    new_seats = update_seats(seats)
 
     while seats != new_seats:
         seats = new_seats
-        new_seats = update_ferry(seats)
+        new_seats = update_seats(seats)
 
     occupied_count = 0
     for row in new_seats:
@@ -23,34 +22,26 @@ def get_input(filename):
 
 
 def parse_input(raw_input):
-    grid = []
-
-    rows = raw_input.splitlines()
-    for i in range(len(rows)):
-        rows[i] = '.' + rows[i] + '.'
-    empty_row = ['.' for i in range(len(rows[0]))]
-
-    grid.append(empty_row)
-    grid.extend([list(i) for i in rows])
-    grid.append(empty_row)
-
-    return grid
+    return [list(line) for line in raw_input.splitlines()]
 
 
-def update_ferry(seats):
-    empty_row = ['.' for i in range(len(seats[0]))]
-    new_seats = [empty_row]
-    for y in range(1, len(seats) - 1):
-        row = ['.']
-        for x in range(1, len(seats[0]) - 1):
-            row.append(update_seat(seats, y, x))
-        new_seats.append(row)
-        row.append('.')
-    new_seats.append(empty_row)
+def update_seats(seats):
+    row_count = len(seats)
+    row_width = len(seats[0])
+
+    new_seats = []
+    for y in range(row_count):
+        new_row = []
+        for x in range(row_width):
+            new_row.append(update_seat(seats, y, x))
+        new_seats.append(new_row)
     return new_seats
 
 
 def update_seat(seats, seat_y, seat_x):
+    row_count = len(seats)
+    row_width = len(seats[0])
+
     seat_state = seats[seat_y][seat_x]
     if seat_state == '#':
         occupied = -1
@@ -59,9 +50,12 @@ def update_seat(seats, seat_y, seat_x):
     else:
         return '.'
 
-    for y in range(seat_y - 1, seat_y + 2):
-        for x in range(seat_x - 1, seat_x + 2):
-            if seats[y][x] == '#':
+    for y in range(-1, 2):
+        for x in range(-1, 2):
+            if not (0 <= seat_x + x < row_width and 0 <= seat_y + y < row_count):
+                continue
+
+            if seats[seat_y + y][seat_x + x] == '#':
                 occupied += 1
 
     if seat_state == '#' and occupied >= 4:
