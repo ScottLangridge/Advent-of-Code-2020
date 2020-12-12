@@ -6,8 +6,6 @@ def main(raw_input):
     way_dx, way_dy = 10, -1
 
     for i in route:
-        if i[1] == ['R', 270]:
-            pass
         if i[0] == 'L' or i[0] == 'R':
             way_dx, way_dy = rotate_waypoint(i, way_dx, way_dy)
         elif i[0] == 'F':
