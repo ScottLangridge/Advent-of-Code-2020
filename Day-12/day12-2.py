@@ -67,7 +67,7 @@ def rotate_waypoint(instruction, way_dx, way_dy):
         signs = coords_to_signs(way_dx, way_dy)
         if instruction[0] == 'L':
             new_signs = signs_transformations_left[signs]
-        elif instruction[0] == 'R':
+        else:
             new_signs = signs_transformations_right[signs]
 
         temp = way_dx
