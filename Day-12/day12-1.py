@@ -16,7 +16,7 @@ def main(raw_input):
         else:
             pos_x, pos_y = move(pos_x, pos_y, compass_headings[i[0]], i[1])
 
-    return pos_x + pos_y
+    return abs(pos_x) + abs(pos_y)
 
 
 def get_input(filename):
@@ -31,13 +31,13 @@ def parse_input(raw_input):
 
 def move(pos_x, pos_y, heading, distance):
     if heading == 0:
-        return (pos_x, pos_y - distance)
+        return pos_x, pos_y - distance
     elif heading == 90:
-        return (pos_x + distance, pos_y)
+        return pos_x + distance, pos_y
     elif heading == 180:
-        return (pos_x, pos_y + distance)
+        return pos_x, pos_y + distance
     elif heading == 270:
-        return (pos_x - distance, pos_y)
+        return pos_x - distance, pos_y
 
 
 if __name__ == '__main__':
