@@ -55,5 +55,3 @@ if __name__ == '__main__':
     time = datetime.now()
     puzzle_input = get_input('input.txt')
     print(main(puzzle_input))
-    end = datetime.now()
-    print(end - time)
