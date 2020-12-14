@@ -1,16 +1,48 @@
+class Mask:
+    def __init__(self, mask_string):
+        self.mask_string = mask_string
+        self.variable_bits = mask_string.count('X')
+        self.submasks = None
+        self.expand_floats()
+
+    def expand_floats(self):
+        self.submasks = []
+        binary_format_string = f'{{0:0{self.variable_bits}b}}'
+        dec_submask_keys = range(2 ** self.variable_bits)
+        bin_submask_keys = [list(binary_format_string.format(i)) for i in dec_submask_keys]
+
+        for submask_key in bin_submask_keys:
+            submask = list(self.mask_string)
+            for i in range(len(submask)):
+                if submask[i] == 'X':
+                    submask[i] = submask_key.pop(0)
+            self.submasks.append(''.join(submask))
+
+    def apply(self, value):
+        bin_val = list('{0:036b}'.format(value))
+
+        for mask in self.submasks:
+            for i in range(len(mask)):
+                if self.mask_string[i] == 'X':
+                    bin_val[i] = mask[i]
+                elif self.mask_string[i] == '1':
+                    bin_val[i] = '1'
+
+            yield int(''.join(bin_val), 2)
+
+
 def main(raw_input):
     instructions = parse_input(raw_input)
     memory = {}
-    original_mask = ''
-    masks = []
+    mask = None
 
     for i in instructions:
-        if i[0] == 'mask':
-            original_mask = i[1][0]
-            masks = i[1][1:]
+        if isinstance(i, str):
+            mask = Mask(i)
         else:
-            for mask in masks:
-                memory[apply_mask(original_mask, mask, i[0])] = i[1]
+            target_addresses = mask.apply(i[0])
+            for address in target_addresses:
+                memory[address] = i[1]
 
     return sum(memory.values())
 
@@ -25,10 +57,11 @@ def parse_input(raw_input):
     instructions = raw_input.splitlines()
     for i in range(len(instructions)):
         if 'mem' in instructions[i]:
-            instructions[i] = parse_address_instruction(instructions[i])
+            address, value = instructions[i].split(' = ')
+            address = address[4:-1]
+            instructions[i] = [int(address), int(value)]
         else:
-            instructions[i] = parse_mask_instruction(instructions[i])
-
+            instructions[i] = instructions[i][-36:]
     return instructions
 
 
@@ -36,37 +69,6 @@ def parse_address_instruction(instruction):
     address, value = instruction.split(' = ')
     address = address[4:-1]
     return [int(address), int(value)]
-
-
-def parse_mask_instruction(instruction):
-    str_mask = instruction[-36:]
-    variables = str_mask.count('X')
-    masks = [str_mask]
-    for i in range(2 ** variables):
-        bin_i = list(('{0:0' + str(variables) + 'b}').format(i))
-        new_mask = ''
-        for j in str_mask:
-            if j == 'X':
-                new_mask = new_mask + bin_i.pop(0)
-            else:
-                new_mask = new_mask + j
-        masks.append(new_mask)
-    return 'mask', masks
-
-
-def apply_mask(original_mask, mask, dev_val):
-    bin_val = list(dec_to_binary(dev_val))
-
-    for i in range(len(mask)):
-        if original_mask[i] == 'X':
-            bin_val[i] = mask[i]
-        elif original_mask[i] == '1':
-            bin_val[i] = '1'
-    return int(''.join(bin_val), 2)
-
-
-def dec_to_binary(value):
-    return '{0:036b}'.format(value)
 
 
 if __name__ == '__main__':
