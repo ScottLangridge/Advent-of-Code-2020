@@ -1,5 +1,6 @@
 def main(raw_input):
-    memory, instructions = parse_input(raw_input)
+    instructions = parse_input(raw_input)
+    memory = {}
     mask = ''
 
     for i in instructions:
@@ -8,7 +9,7 @@ def main(raw_input):
         else:
             memory[i[0]] = apply_mask(mask, i[1])
 
-    return sum(memory)
+    return sum(memory.values())
 
 
 def get_input(filename):
@@ -19,19 +20,15 @@ def get_input(filename):
 
 def parse_input(raw_input):
     instructions = raw_input.splitlines()
-    greatest_address = 0
     for i in range(len(instructions)):
         if 'mem' in instructions[i]:
             address, value = instructions[i].split(' = ')
             address = address[4:-1]
             instructions[i] = [int(address), int(value)]
-            if int(address) > greatest_address:
-                greatest_address = int(address)
         else:
             instructions[i] = instructions[i][-36:]
 
-    memory = [0] * (greatest_address + 1)
-    return memory, instructions
+    return instructions
 
 
 def apply_mask(mask, dev_val):
