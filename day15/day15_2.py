@@ -1,10 +1,26 @@
+from collections import defaultdict
+
+
 def main(raw_input):
-    # Parse input
+    start_nums = parse_input(raw_input)
 
-    # Solve problem
+    t = 1
+    memory = defaultdict(list)
+    spoken_number = start_nums[-1]
+    while start_nums:
+        memory[start_nums.pop(0)].append(t)
+        t += 1
 
-    # Return solution
-    return None
+    while t <= 30000000:
+        if len(memory[spoken_number]) >= 2:
+            spoken_number = memory[spoken_number][-1] - memory[spoken_number][-2]
+            memory[spoken_number].append(t)
+        else:
+            memory[0].append(t)
+            spoken_number = 0
+        t += 1
+
+    return spoken_number
 
 
 def get_input(filename):
@@ -14,7 +30,7 @@ def get_input(filename):
 
 
 def parse_input(raw_input):
-    return raw_input
+    return [int(num) for num in raw_input.split(',')]
 
 
 if __name__ == '__main__':
