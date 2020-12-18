@@ -68,10 +68,6 @@ def get_first_operation(expr):
                     bracket_depth -= 1
 
 
-
-
-
-
 if __name__ == '__main__':
     puzzle_input = get_input('input.txt')
     print(main(puzzle_input))
