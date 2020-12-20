@@ -47,3 +47,10 @@ class State:
                         mismatches += 1
 
         return mismatches
+
+    def corner_product(self):
+        product = 1
+        for y in (0, len(self._tile_matrix) -1):
+            for x in (0, len(self._tile_matrix[0]) - 1):
+                product *= self._tile_matrix[y][x].tid
+        return product

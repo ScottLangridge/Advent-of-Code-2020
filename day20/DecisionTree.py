@@ -15,6 +15,7 @@ class DecisionTree:
                 cheapest_node = node
 
         self.fringe.remove(cheapest_node)
+        print(cheapest_node.f, cheapest_node.h)
         self.fringe.extend(cheapest_node.expand())
 
     def _solution_found(self):

@@ -11,7 +11,7 @@ def main(raw_input):
     root_node = build_root_node(tiles)
     tree = DecisionTree(root_node)
     answer = tree.run()
-    return None
+    return answer.state.corner_product()
 
 
 def get_input(filename):

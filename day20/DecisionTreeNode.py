@@ -22,7 +22,7 @@ class DecisionTreeNode:
 
             # See https://medium.com/@nicholas.w.swift/easy-a-star-pathfinding-7e6689c7f7b2
             self.h = self.state.count_mismatches()
-            self.g = parent_node.g + 1
+            self.g = parent_node.g + 0.5
             self.f = self.g + self.h
 
     def expand(self):
